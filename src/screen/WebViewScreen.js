@@ -4,6 +4,8 @@ import * as Notifications from 'expo-notifications';
 import { useEffect, useRef } from "react";
 import { WebView } from "react-native-webview";
 import { useNavigation } from "@react-navigation/native";
+import ScreenLayout from "../components/ScreenLayout";
+import AppButton from "../components/AppButton";
 
 Notifications.setNotificationHandler({
   handleNotification: async ()=>({
@@ -14,14 +16,6 @@ Notifications.setNotificationHandler({
 });
 
 export default function WebViewScreen() {
-//   useEffect(() => {
-//     (async () => {
-//       const { status } = await Notifications.requestPermissionsAsync();
-//       if( status !== 'granted'){
-//         Alert.alert("Permission is not granted");
-//       }
-//     })();
-//   },[]);
 
    const permissionGranted = useRef(false);
    const navigation = useNavigation();
@@ -104,7 +98,7 @@ const triggerNotification2 = async () => {
       title: "Open Video Player",
       body: "Tap to watch video",
       data: {
-        screen: "VideoPlayer", // 🔥 navigation key
+        screen: "VideoPlayer",
       },
     },
     trigger: {
@@ -116,37 +110,61 @@ const triggerNotification2 = async () => {
 
 
   return (
-    <View style = {styles.container}>
+    <ScreenLayout>
       <StatusBar style="auto" />
-      <WebView source={{ uri: "https://example.com" }} style={{ flex: 1 }}  onLoadEnd={notifyOnWebLoad} />
-        <View style={styles.buttonView}>
-            <View style={styles.button}>
-                <Button title="Notify1" onPress={triggerNotification} />
-            </View>
-            <View style={styles.button}>
-                <Button title="Notify2" onPress={triggerNotification2} />
-            </View>
-        </View>
+
+      <WebView
+        source={{ uri: "https://example.com" }}
+        style={{ flex: 1 }}
+        onLoadEnd={notifyOnWebLoad}
+      />
+
+    <View style={styles.footer}>
+      <View style={styles.button}>
+        <AppButton title="Notify 1" onPress={triggerNotification} />
+      </View>
+      <View style={styles.button}>
+        <AppButton
+          title="Notify 2"
+          variant="secondary"
+          onPress={triggerNotification2}
+        />
+      </View>
     </View>
+    </ScreenLayout>
+   
   );
   
 }
 
 const styles = StyleSheet.create({
-container: {
+  content: {
     flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'flex-end',
-    // justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 24,
   },
-buttonView: {
-    flex:1,
-    flexDirection: 'row',
-    padding:10
-    },
-button: {
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#6b7280",
+    textAlign: "center",
+  },
+  footer: {
+    flexDirection: "row",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "#e5e7eb",
+    backgroundColor: "#ffffff",
+  },
+  button: {
     flex: 1,
     marginHorizontal: 6,
-    borderRadius: 20
-    }
+  },
 });
+

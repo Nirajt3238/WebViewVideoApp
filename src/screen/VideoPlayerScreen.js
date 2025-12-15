@@ -1,6 +1,7 @@
 import { View, Button, StyleSheet, Text } from "react-native";
 import { VideoView, useVideoPlayer } from "expo-video";
 import { useEffect, useState } from "react";
+import AppButton from "../components/AppButton";
 
 const STREAMS = {
   stream1: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
@@ -14,7 +15,7 @@ export default function VideoPlayerScreen({ route }) {
 
   const player = useVideoPlayer(currentStream, (player) => {
     player.loop = true;
-    player.play(); // ✅ auto-play
+    player.play(); 
   });
 
   useEffect(() => {
@@ -32,11 +33,11 @@ export default function VideoPlayerScreen({ route }) {
       />
 
 
-      {/* CONTROLS */}
       <View style={styles.controls}>
-        <Button title="Play" onPress={() => player.play()} />
-        <Button title="Pause" onPress={() => player.pause()} />
-        <Button
+        <AppButton title="Play" variant="secondary" onPress={() => player.play()} />
+        <AppButton title="Pause" onPress={() => player.pause()} />
+        <AppButton
+        variant="secondary"
           title={muted ? "Unmute" : "Mute"}
           onPress={() => {
             player.muted = !muted;
@@ -45,15 +46,15 @@ export default function VideoPlayerScreen({ route }) {
         />
       </View>
 
-      {/* STREAM SWITCH */}
       <Text style={styles.label}>Switch Stream</Text>
       <View style={styles.controls}>
-        <Button
+        <AppButton
           title="Stream 1"
           onPress={() => setCurrentStream(STREAMS.stream1)}
         />
-        <Button
+        <AppButton
           title="Stream 2"
+          variant="secondary"
           onPress={() => setCurrentStream(STREAMS.stream2)}
         />
       </View>
