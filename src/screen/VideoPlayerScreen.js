@@ -31,7 +31,6 @@ export default function VideoPlayerScreen({ route }) {
         muted
       />
 
-      <Text style={styles.label}>Custom Controls</Text>
 
       {/* CONTROLS */}
       <View style={styles.controls}>
